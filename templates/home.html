@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}"> -->
+    <style>
+        /* *{
+            outline: 1px dotted red;
+        } */
+        #logout{
+            display: inline-block;
+        }
+        #q-box_container{
+            overflow: scroll;
+        }
+        .quote_box{
+            width: 300px;
+            overflow: scroll;
+            border: 1px solid black;
+            margin: 5px;
+        }
+        #quote{
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Welcome {{context.user.name}}!</h2>
+            </div>
+            <div class="col-md-6 text-right">
+                <a href="/myaccount/{{context.user.id}}">Edit My Account</a>
+                <form action="/logout" id="logout">
+                    <input type="submit" value="Logout">
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6" id="q-box_container">
+                <h4>Quotes</h4>
+                {% for quote in context2.quotes %}
+                    <div class="quote_box">
+                        <p>{{quote['author']}}: {{quote['quote']}}</p>
+                        <p>Posted by:
+                            <a href="/user/{{quote['id']}}">{{quote['first_name']+ ' ' +quote['last_name']}}</a>
+                        </p>
+                    </div>
+                {% endfor %}
+                {% for quote in context3.quotes1 %}
+                    <div class="quote_box">
+                        <p>{{quote['author']}}: {{quote['quote']}}</p>
+                        <p>Posted by:
+                            <a href="/user/{{quote['id']}}">{{quote['first_name']+ ' ' +quote['last_name']}}</a>
+                        </p>
+                        <form action="/delete/{{quote['quotes.id']}}" method="POST">
+                            <input type="submit" value="Delete">
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-6">
+                <h4>Add a Quote!</h4>
+                {% with messages = get_flashed_messages() %}     <!-- declare a variable called messages -->
+                    {% if messages %}                            <!-- check if there are any messages -->
+                        {% for message in messages %}            <!-- loop through the messages -->
+                            <p style="color:red">{{message}}</p>                   <!-- display each message in a paragraph tag -->
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <form action="/quote/add" method="POST">
+                    <div class="form-group">
+                        <label for="author" class="form-horizontal" style="display: inline-block">Author:</label>
+                        <input type="text" class="form-horizontal" class="form-control" name="author">
+                    </div>
+                    <div class="form-group">
+                        <label for="quote" class="form-horizontal" id="quote" style="display: inline-block">Quote:</label>
+                        <textarea name="quote" id="plan" cols="30" rows="10"></textarea>
+                    </div>
+                    <input type="submit" value="Submit!">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<!DOCTYPE html>

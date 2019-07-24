@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}"> -->
+    <style>
+        /* *{
+            outline: 1px dotted red;
+        } */
+        #logout{
+            display: inline-block;
+        }
+        #quote_box{
+            height: 500px;
+            width: 600px;
+            overflow: scroll;
+        }
+        p{
+            border: 2px solid black;
+            /* width: 300px; */
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <a href="/home">Home</a>
+                <form action="/logout" id="logout">
+                    <input type="submit" value="Logout">
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            {% for user in context.quotes %}
+            <div class="col-md-6">
+                <h4>{{user['first_name']}}'s Quotes</h4>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="row" id="quote_box">
+            <div class="col-md-7">
+                {% for quote in context.quotes %}
+                    <p>{{quote['author']}}: {{quote['quote']}}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<!DOCTYPE html>
